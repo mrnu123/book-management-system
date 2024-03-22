@@ -14,7 +14,8 @@ const validateYear = (year) => {
   if (year == "") return false;
   try {
     const _year = Number.parseInt(year);
-    if (_year > _yearNow || _year < 1000) {
+    const minYear = 1000;
+    if (_year > _yearNow || _year < minYear) {
       return false;
     }
     return true;
