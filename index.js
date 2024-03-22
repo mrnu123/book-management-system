@@ -8,7 +8,7 @@ const validateYear = (year) => {
   if (year == "") return false;
   try {
     const _year = Number.parseInt(year);
-    if (_year > _yearNow) {
+    if (_year > _yearNow || _year < 1000) {
       return false;
     }
     return true;
@@ -105,45 +105,74 @@ const addBook = () => {
 const viewBooks = () => {
   books.forEach((item) => {
     console.log(`
-  id     : ${item.id}
-  title  : ${item.title}
-  author : ${item.author}
-  year   : ${item.year}
-  price  : ${item.price}
+  id           : ${item.id}
+  title        : ${item.title}
+  author       : ${item.author}
+  year         : ${item.year}
+  price (THB)  : ${item.price}
   `);
   });
 };
 
 const editBook = () => {
+  let bookTitle;
+  let bookAuthor;
+  let bookYear;
+  let bookPrice;
+  let _bookYearIsValid = false;
+  let _bookPriceIsValid = false;
   const id = prompt("Enter the book's ID to edit : ");
   const book = books.find((item) => item.id == id);
-  const bookTitle = prompt("Edit book's title :", book.title);
-  if (bookTitle != book.title) {
-    alert(`You change the book's title from ${book.title} to ${bookTitle}`);
-  } else {
-    alert(`You don't change the book's title`);
+  if (!book) {
+    alert("The id is invalid.");
+    return;
   }
+  do {
+    bookTitle = prompt("Edit book's title :", book.title);
+    if (bookTitle == "") {
+      alert("Title book is invalid.");
+    } else if (bookTitle != book.title) {
+      alert(`You change the book's title from ${book.title} to ${bookTitle}`);
+    } else {
+      alert(`You don't change the book's title`);
+    }
+  } while (bookTitle == "");
 
-  const bookAuthor = prompt("Edit book's author :", book.author);
-  if (bookAuthor != book.author) {
-    alert(`You change the book's author from ${book.author} to ${bookAuthor}`);
-  } else {
-    alert(`You don't change the book's author`);
-  }
+  do {
+    bookAuthor = prompt("Edit book's author :", book.author);
+    if (bookAuthor == "") {
+      alert("Author book is invalid.");
+    } else if (bookAuthor != book.author) {
+      alert(
+        `You change the book's author from ${book.author} to ${bookAuthor}`
+      );
+    } else {
+      alert(`You don't change the book's author`);
+    }
+  } while (bookAuthor == "");
+  do {
+    bookYear = prompt("Edit book's year :", book.year);
+    _bookYearIsValid = validateYear(bookYear);
+    if (bookYear != book.year && _bookYearIsValid) {
+      alert(`You change the book's year from ${book.year} to ${bookYear}`);
+    } else if (!_bookYearIsValid) {
+      alert("Book's year is invalid.");
+    } else {
+      alert(`You don't change the book's year`);
+    }
+  } while (!_bookYearIsValid);
 
-  const bookYear = prompt("Edit book's year :", book.year);
-  if (bookYear != book.year) {
-    alert(`You change the book's year from ${book.year} to ${bookYear}`);
-  } else {
-    alert(`You don't change the book's year`);
-  }
-
-  const bookPrice = prompt("Edit book's price :", book.price);
-  if (bookPrice != book.price) {
-    alert(`You change the book's price from ${book.price} to ${bookPrice}`);
-  } else {
-    alert(`You don't change the book's price`);
-  }
+  do {
+    bookPrice = prompt("Edit book's price :", book.price);
+    _bookPriceIsValid = validateBookPrice(bookPrice);
+    if (bookPrice != book.price && _bookPriceIsValid) {
+      alert(`You change the book's price from ${book.price} to ${bookPrice}`);
+    } else if (!_bookPriceIsValid) {
+      alert("Book's price is invalid.");
+    } else {
+      alert(`You don't change the book's price`);
+    }
+  } while (!_bookPriceIsValid);
   book.title = bookTitle;
   book.author = bookAuthor;
   book.year = bookYear;
