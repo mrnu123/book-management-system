@@ -1,6 +1,12 @@
 const books = [];
 const readme = () => {
-  console.log("Please follow this instruction:");
+  console.log(`Please follow this instruction:
+  1. You can view all books using viewBooks()
+  2. You can add a book using addBook()
+  3. You can edit a book using editBook()
+  4. You can delete a book using deleteBook()
+  `);
+  
 };
 
 const validateYear = (year) => {
@@ -29,7 +35,6 @@ const validateBookPrice = (price) => {
   let idx = 0;
   if (priceComma.length > 1) {
     for (const item of priceComma) {
-      console.log(item);
       if (priceComma[0].length > 3) {
         return false;
       } else if (idx > 0 && item.length != 3) {
@@ -44,7 +49,6 @@ const validateBookPrice = (price) => {
   if (priceSplitDot.length == 1) {
     _price += ".00";
   }
-  console.log(_price.match(re));
   return _price.match(re) != null;
 };
 
